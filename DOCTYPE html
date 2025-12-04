@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>今日運勢查詢</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>今日運勢查詢</h1>
+    </header>
+
+    <main class="container">
+
+        <!-- 左側：運勢區 -->
+        <section class="fortune-section">
+            <h2>今日運勢</h2>
+            <div class="fortune-item">綜合運勢：<span class="result" id="overall">尚未測試</span></div>
+            <div class="fortune-item">愛情運勢：<span class="result" id="love">尚未測試</span></div>
+            <div class="fortune-item">事業學業：<span class="result" id="career">尚未測試</span></div>
+            <div class="fortune-item">財運：<span class="result" id="money">尚未測試</span></div>
+        </section>
+
+        <!-- 右側：控制與行動建議 -->
+        <section class="control-section">
+
+            <div class="control-area">
+                <button id="startBtn">開始 / 重測</button>
+            </div>
+
+            <div class="advice-section">
+                <h2>每日行動建議</h2>
+                <p id="advice">尚未產生建議</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
