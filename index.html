@@ -50,11 +50,14 @@
     const gameOverScreen = document.getElementById('gameOverScreen');
 
     let score = 0;
-    let highScore = 0;
     let phase = 1;
     let gameRunning = false;
     let visibleMoles = 0;
     let gameInterval = null;
+
+    // 使用 localStorage 儲存最高分
+    let highScore = localStorage.getItem('whackAMoleHighScore') ? parseInt(localStorage.getItem('whackAMoleHighScore')) : 0;
+    highScoreDisplay.textContent = `最高分：${highScore}`;
 
     const speedPhase1 = 350;
     const speedPhase2 = 250;
@@ -110,6 +113,7 @@
       if (score > highScore) {
         highScore = score;
         highScoreDisplay.textContent = `最高分：${highScore}`;
+        localStorage.setItem('whackAMoleHighScore', highScore);
       }
       document.getElementById('finalScore').textContent = `你的分數：${score}`;
       gameOverScreen.style.display = 'flex';
