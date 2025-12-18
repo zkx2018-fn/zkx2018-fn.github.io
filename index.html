@@ -11,16 +11,8 @@
       text-align: center;
       padding: 20px;
     }
-
-    h1 {
-      margin-bottom: 10px;
-    }
-
-    #score {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
+    h1 { margin-bottom: 10px; }
+    #score { font-size: 24px; margin-bottom: 20px; }
     #game {
       width: 330px;
       margin: 0 auto;
@@ -28,7 +20,6 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
-
     .hole {
       width: 100px;
       height: 100px;
@@ -38,7 +29,6 @@
       overflow: hidden;
       cursor: pointer;
     }
-
     .mole {
       width: 80px;
       height: 80px;
@@ -50,16 +40,22 @@
       transform: translateX(-50%);
       transition: bottom 0.1s;
     }
-
-    .mole.show {
-      bottom: 5px;
-    }
-
+    .mole.show { bottom: 5px; }
     button {
       margin-top: 20px;
       padding: 10px 20px;
       font-size: 18px;
       cursor: pointer;
+    }
+    #gameOverScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
     }
   </style>
 </head>
@@ -81,17 +77,29 @@
 
   <button id="startBtn">開始遊戲 / 重置</button>
 
+  <!-- 遊戲結束畫面 -->
+  <div id="gameOverScreen">
+    <div style="background:#222; padding:30px 40px; border-radius:12px; text-align:center;">
+      <h2>遊戲結束</h2>
+      <p id="finalScore">你的分數：0</p>
+      <button id="restartBtn" style="margin-top:15px; padding:10px 20px; font-size:16px;">重新開始</button>
+    </div>
+  </div>
+
   <script>
+  document.addEventListener('DOMContentLoaded', () => {
     const moles = document.querySelectorAll('.mole');
     const scoreDisplay = document.getElementById('score');
     const startBtn = document.getElementById('startBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const gameOverScreen = document.getElementById('gameOverScreen');
 
     let score = 0;
     let phase = 1;
     let gameRunning = false;
+    let visibleMoles = 0;
     let gameInterval = null;
 
-    // 速度設定
     const speedPhase1 = 400;
     const speedPhase2 = 300;
     const speedPhase3 = 200;
@@ -109,15 +117,25 @@
     }
 
     function popRandomMole() {
+      if (!gameRunning) return;
+      if (visibleMoles >= 4) {
+        endGame();
+        return;
+      }
       const idx = Math.floor(Math.random() * moles.length);
       const mole = moles[idx];
-      mole.classList.add('show');
+      if (!mole.classList.contains('show')) {
+        mole.classList.add('show');
+        visibleMoles++;
+      }
     }
 
     moles.forEach(mole => {
       mole.addEventListener('click', () => {
+        if (!gameRunning) return;
         if (mole.classList.contains('show')) {
           mole.classList.remove('show');
+          visibleMoles = Math.max(0, visibleMoles - 1);
 
           if (phase === 1) score += 5;
           else if (phase === 2) score += 10;
@@ -126,25 +144,39 @@
           scoreDisplay.textContent = `分數：${score}`;
           updatePhase();
 
-          // 移除自動重啟，不清除 gameInterval
-          // 重新設定 interval 讓速度能加快
           clearInterval(gameInterval);
           gameInterval = setInterval(popRandomMole, updateSpeed());
         }
       });
     });
 
+    function endGame() {
+      clearInterval(gameInterval);
+      gameRunning = false;
+      visibleMoles = 0;
+      moles.forEach(m => m.classList.remove('show'));
+      document.getElementById('finalScore').textContent = `你的分數：${score}`;
+      gameOverScreen.style.display = 'flex';
+    }
+
+    restartBtn.addEventListener('click', () => {
+      gameOverScreen.style.display = 'none';
+      score = 0;
+      phase = 1;
+      scoreDisplay.textContent = `分數：${score}`;
+    });
+
     startBtn.addEventListener('click', () => {
       clearInterval(gameInterval);
       score = 0;
       phase = 1;
+      visibleMoles = 0;
       scoreDisplay.textContent = `分數：${score}`;
-
       moles.forEach(m => m.classList.remove('show'));
-
       gameRunning = true;
       gameInterval = setInterval(popRandomMole, updateSpeed());
     });
+  });
   </script>
 </body>
 </html>
