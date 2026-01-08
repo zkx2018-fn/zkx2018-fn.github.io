@@ -1,20 +1,24 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>打地鼠遊戲</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f7f7f7; text-align: center; padding: 20px; }
-    h1 { margin-bottom: 10px; }
-    #score, #highScore { font-size: 24px; margin-bottom: 20px; }
-    #game { width: 330px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .hole { width: 100px; height: 100px; background: #d9d9d9; border-radius: 10px; position: relative; overflow: hidden; cursor: pointer; }
-    .mole { width: 80px; height: 80px; background: brown; border-radius: 50%; position: absolute; bottom: -90px; left: 50%; transform: translateX(-50%); transition: bottom 0.1s; }
-    .mole.show { bottom: 5px; }
-    button { margin-top: 20px; padding: 10px 20px; font-size: 18px; cursor: pointer; }
-    #gameOverScreen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); color: #fff; align-items: center; justify-content: center; z-index: 1000; }
-  </style>
+body {font-family:Arial,sans-serif;background:linear-gradient(#7ec850,#4fa63a);text-align:center;padding:20px;}
+h1{color:#fff;text-shadow:2px 2px 4px #000}
+#score,#highScore{font-size:24px;color:#fff;margin-bottom:10px}
+#game{width:330px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.hole{width:100px;height:100px;background:#3e2a14;border-radius:50%;box-shadow:inset 0 10px 20px rgba(0,0,0,.6);position:relative;overflow:hidden}
+.mole{width:70px;height:70px;background:radial-gradient(circle at 30% 30%,#c68642,#7a4a1f);border-radius:50%;position:absolute;bottom:-80px;left:50%;transform:translateX(-50%);transition:.15s;box-shadow:0 6px 0 rgba(0,0,0,.25), inset -4px -6px 0 rgba(0,0,0,.15);}
+.mole::before{content:"";position:absolute;width:14px;height:14px;background:#111;border-radius:50%;left:16px;top:22px;box-shadow:2px 2px 0 rgba(255,255,255,.2);}
+.mole::after{content:"";position:absolute;width:14px;height:14px;background:#111;border-radius:50%;right:16px;top:22px;box-shadow:2px 2px 0 rgba(255,255,255,.2);}
+.mole .nose{position:absolute;width:14px;height:10px;background:linear-gradient(#ffb7c5,#ff8fa3);border-radius:50%;left:50%;top:44px;transform:translateX(-50%);box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);}
+.mole.show{bottom:10px}
+button{margin-top:20px;padding:12px 25px;font-size:18px;border:none;border-radius:8px;background:#ffb703;box-shadow:0 4px #c57f00;cursor:pointer}
+button:active{transform:translateY(2px);box-shadow:0 2px #c57f00}
+#gameOverScreen{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);color:#fff;align-items:center;justify-content:center;z-index:1000}
+</style>
 </head>
 <body>
   <h1>打地鼠遊戲</h1>
